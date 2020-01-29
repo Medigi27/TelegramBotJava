@@ -3,7 +3,6 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -11,13 +10,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
-//import static java.awt.DefaultKeyboardFocusManager.sendMessage;
 
 public class Bot extends TelegramLongPollingBot {
     public static void main(String[] args) {
@@ -29,21 +24,6 @@ public class Bot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-
-   /* public void sendMsg(Message message, String text){
-        SendMessage sendMs = new SendMessage();
-        sendMs.enableMarkdown(true);
-        sendMs.setChatId(message.getChatId().toString());
-        sendMs.setReplyToMessageId(message.getMessageId());
-        sendMs.setText(text);
-        try {
-            Execute(sendMs);
-
-        }catch (TelegramApiException e){
-            e.printStackTrace();
-        }
-    } */
-
 
     public void onUpdateReceived(Update update) {
         SendMessage sendMessage = new SendMessage();
@@ -75,11 +55,13 @@ public class Bot extends TelegramLongPollingBot {
                         e.printStackTrace();
                     }
                     break;
-                case "сиськи":
+                case "хочуфото":
                     try {
-                        File fileToUpload = new File("C:\\Users\\Paper Planes\\Documents\\Telegram Bot\\сиськи.jpg");
+                        execute(sendMessage.setText("Сейчас попробую загрузить"));
+                        File fileToUpload = new File("photo.jpg");
                         SendPhoto sendPhoto = new SendPhoto();
                         sendPhoto.setPhoto(fileToUpload);
+                        System.out.println("файл загружен");
                         if (sendPhoto != null) {
                             sendPhoto.setChatId(message.getChatId());
                             try {
@@ -118,20 +100,15 @@ public class Bot extends TelegramLongPollingBot {
 
         keyboardFirstRow.add(new KeyboardButton("/help"));
         keyboardFirstRow.add(new KeyboardButton("/settings"));
-        keyboardFirstRow.add(new KeyboardButton("/сиськи"));
-
-
-        //keyboardFirstRow
-
+        keyboardFirstRow.add(new KeyboardButton("/хочуфото"));
 
     }
 
-
     public String getBotUsername() {
-        return "medigi_bot";
+        return System.getenv("BOT_USERNAME");
     }
 
     public String getBotToken() {
-        return "1008611486:AAEa6GqWNmFseQ6xvt6LhUblqnks1fkWiP8";
+        return System.getenv("BOT_TOKEN");
     }
 }
